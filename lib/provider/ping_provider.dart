@@ -4,45 +4,68 @@ import 'package:skysoft_assignment/models/ping_model.dart';
 
 class PingEventsData extends ChangeNotifier {
   late List<Duration?> responsetimeList;
-  List<PingDataModel> pingDataList = [];
   late PingDataModel pingData;
+  List<PingDataModel> pingDataList = [];
   late String ip;
-  bool isPinged = false;
-  bool hasData = false;
-  int count = 0;
 
-  bool hasEnded = false;
+  int count = 0; //check event number
+  bool isPinged = false; //check if button is pressed
+  bool hasData = false; //check if we have data from events
 
-  Duration totalResponse = Duration();
   void onPingGoogle() {
-    count = 0;
+    count = 0; //reset count to zero for new button taps
     this.responsetimeList = [];
-    final ping = Ping('google.com', count: 5);
+
+    final ping = Ping('google.com', count: 5); //start the ping
 
     ping.stream.listen((event) {
-      count++;
-      if (event.response != null) {
-        this.ip = event.response!.ip!;
+      //listen to ping events
+      setBoolAndCount(event);
 
-        this.responsetimeList.add(event.response!.time);
-      }
+      getIpAndResponseList(event);
+      createPingDataModelObject();
 
-      this.pingData = PingDataModel.fromEvent(this.responsetimeList);
-      this.isPinged = true;
-      this.hasData = true;
-      //this.hasEnded = false;
-      if (count >= 2) {
-        var index = pingDataList.length - 1;
-        pingDataList.removeAt(index);
-      }
-      pingDataList.add(pingData);
-
-      if (event.response == null) {
-        isPinged = false;
-        hasEnded = true;
-      }
+      removeOldPingDataModelObject();
+      getListOfPingDataModel();
 
       notifyListeners();
     });
+  }
+
+  void getListOfPingDataModel() {
+    pingDataList.add(
+        pingData); //add the new PingDataModel with updated list of response times.
+  }
+
+  void removeOldPingDataModelObject() {
+    if (count >= 2) {
+      //remove the last object of PingDataModel added to  pingDataList which has old list of response times.
+      //this code is not executed for first event since pingDataList is empty here.
+      var index = pingDataList.length - 1;
+      pingDataList.removeAt(index);
+    }
+  }
+
+  void createPingDataModelObject() {
+    this.pingData = PingDataModel.fromEvent(this
+        .responsetimeList); //create object of PingDataModel with current list of response times.
+  }
+
+  void getIpAndResponseList(PingData event) {
+    if (event.response != null) {
+      //get ip and updated list of response times from events
+      this.ip = event.response!.ip!;
+      this.responsetimeList.add(event.response!.time);
+    }
+  }
+
+  void setBoolAndCount(PingData event) {
+    //controls what widgets are displayed on screen
+    count++;
+    this.isPinged = true;
+    if (event.response == null) {
+      isPinged = false;
+    }
+    this.hasData = true;
   }
 }

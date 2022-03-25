@@ -117,22 +117,19 @@ class _PingProviderScreenState extends State<PingProviderScreen> {
                                     ),
                                   ),
                                 ),
-                                pingEventsData.hasEnded
-                                    ? Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'Total Response Time:',
-                                            style: TextStyle(
-                                                color: Colors.blueAccent,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          Text(
-                                              '${pingEventsData.pingDataList[index1].totalResponseTime}'),
-                                        ],
-                                      )
-                                    : Container()
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Total Response Time:',
+                                      style: TextStyle(
+                                          color: Colors.blueAccent,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                        '${pingEventsData.pingDataList[index1].totalResponseTime}'),
+                                  ],
+                                )
                               ],
                             );
                           },
