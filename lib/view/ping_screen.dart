@@ -70,7 +70,7 @@ class _PingProviderScreenState extends State<PingProviderScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'CURRENT IP:',
+                            'IP ADDRESS:',
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
@@ -109,7 +109,7 @@ class _PingProviderScreenState extends State<PingProviderScreen> {
                                     itemBuilder: (_, index2) => Row(
                                       key: ValueKey('responseTimeText'),
                                       mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                          MainAxisAlignment.start,
                                       children: [
                                         Text(
                                           'Response time ${index2 + 1}:',
@@ -118,7 +118,9 @@ class _PingProviderScreenState extends State<PingProviderScreen> {
                                               fontWeight: FontWeight.bold),
                                         ),
                                         Text(
-                                          '${pingEventsData.pingDataList[index1].responseTimeList[index2]}',
+                                          '${getSeconds(pingEventsData.pingDataList[index1].responseTimeList[index2])}' +
+                                              ' seconds',
+                                          //'${pingEventsData.pingDataList[index1].responseTimeList[index2]}',
                                         ),
                                         SizedBox(
                                           height: 10,
@@ -128,8 +130,11 @@ class _PingProviderScreenState extends State<PingProviderScreen> {
                                   ),
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
+                                    SizedBox(
+                                      width: 20,
+                                    ),
                                     Text(
                                       'Total Response Time:',
                                       key: ValueKey('totalResponseTimeText'),
@@ -138,7 +143,10 @@ class _PingProviderScreenState extends State<PingProviderScreen> {
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Text(
-                                        '${pingEventsData.pingDataList[index1].totalResponseTime}'),
+                                      '${getSeconds(pingEventsData.pingDataList[index1].totalResponseTime)}' +
+                                          ' seconds',
+                                      //'${pingEventsData.pingDataList[index1].totalResponseTime}'
+                                    ),
                                   ],
                                 )
                               ],
@@ -156,5 +164,10 @@ class _PingProviderScreenState extends State<PingProviderScreen> {
             );
           }),
         ));
+  }
+
+  double getSeconds(Duration? duration) {
+    var seconds = duration.toString().split('.')[1];
+    return (int.parse(seconds) / 100000);
   }
 }

@@ -50,5 +50,13 @@ void main() {
     expect(pingEventsData.pingData.responseTimeList.length, 1);
     expect(pingEventsData.pingDataList.length, 2);
   });
-  test('test all functions when a ping has ended completely', () {});
+  test('test all functions when a ping has ended completely', () {
+    PingData nullPingData = PingData(response: null);
+    pingEventsData.setBoolAndCount(nullPingData);
+    pingEventsData.getIpAndResponseList(nullPingData);
+    pingEventsData.createPingDataModelObject();
+    pingEventsData.removeOldPingDataModelObject();
+    pingEventsData.getListOfPingDataModel();
+    expect(pingEventsData.isPinged, false);
+  });
 }

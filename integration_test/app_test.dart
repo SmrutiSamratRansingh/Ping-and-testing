@@ -54,3 +54,6 @@ void main() {
     });
   });
 }
+
+//run command:flutter test integration_test/app_test.dart
+//run on real device
