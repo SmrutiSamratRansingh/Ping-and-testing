@@ -31,10 +31,15 @@ class _PingProviderScreenState extends State<PingProviderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: ValueKey('scaffold'),
         backgroundColor: Colors.amber,
         appBar: AppBar(
+          key: ValueKey('appBar'),
           centerTitle: true,
-          title: Text('Response Timer'),
+          title: Text(
+            'Response Timer',
+            key: ValueKey('appbar text'),
+          ),
         ),
         body: SafeArea(
           child: Consumer<PingEventsData>(
@@ -61,6 +66,7 @@ class _PingProviderScreenState extends State<PingProviderScreen> {
                 ),
                 pingEventsData.hasData
                     ? Row(
+                        key: ValueKey('ip'),
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
@@ -82,6 +88,7 @@ class _PingProviderScreenState extends State<PingProviderScreen> {
                 pingEventsData.hasData
                     ? Expanded(
                         child: ListView.separated(
+                          key: ValueKey('outerListView'),
                           //shrinkWrap: true,
                           // outer ListView
                           itemCount: pingEventsData.pingDataList.length,
@@ -89,6 +96,7 @@ class _PingProviderScreenState extends State<PingProviderScreen> {
                             return Column(
                               children: [
                                 ListTile(
+                                  key: ValueKey('innerListView'),
                                   subtitle: ListView.builder(
                                     // inner ListView
                                     scrollDirection: Axis.vertical,
@@ -99,6 +107,7 @@ class _PingProviderScreenState extends State<PingProviderScreen> {
                                         .responseTimeList
                                         .length,
                                     itemBuilder: (_, index2) => Row(
+                                      key: ValueKey('responseTimeText'),
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
@@ -109,7 +118,8 @@ class _PingProviderScreenState extends State<PingProviderScreen> {
                                               fontWeight: FontWeight.bold),
                                         ),
                                         Text(
-                                            '${pingEventsData.pingDataList[index1].responseTimeList[index2]}'),
+                                          '${pingEventsData.pingDataList[index1].responseTimeList[index2]}',
+                                        ),
                                         SizedBox(
                                           height: 10,
                                         ),
@@ -122,6 +132,7 @@ class _PingProviderScreenState extends State<PingProviderScreen> {
                                   children: [
                                     Text(
                                       'Total Response Time:',
+                                      key: ValueKey('totalResponseTimeText'),
                                       style: TextStyle(
                                           color: Colors.blueAccent,
                                           fontWeight: FontWeight.bold),

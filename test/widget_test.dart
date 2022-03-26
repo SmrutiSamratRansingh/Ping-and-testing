@@ -8,23 +8,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:skysoft_assignment/main.dart';
+import 'package:skysoft_assignment/view/ping_screen.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+  setUp(() {});
+  testWidgets('check initial state of the screen', (WidgetTester tester) async {
+    final pingButton = find.byKey(ValueKey('ping button'));
+    final appBar = find.byKey(ValueKey('appBar'));
+    final scaffold = find.byKey(ValueKey('scaffold'));
+    final appBarText = find.byKey(ValueKey('appbar text'));
+    final text = find.widgetWithText(AppBar, 'Response Timer');
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    await tester.pumpWidget(MaterialApp(
+      home: PingProvider(),
+    ));
+    expect(pingButton, findsOneWidget);
+    expect(appBar, findsOneWidget);
+    expect(scaffold, findsOneWidget);
+    expect(appBarText, findsOneWidget);
+    expect(text, findsOneWidget);
+  });
+  testWidgets('check widgets on screen after button is tapped for first time',
+      (WidgetTester tester) async {
+    final pingButton = find.byKey(ValueKey('ping button'));
+    final ipText = find.byKey(ValueKey('ip'));
+    final outerListView = find.byKey(ValueKey('outerListView'));
+    final innerListView = find.byKey(ValueKey('innerListView'));
+    final totalResponseTime = find.byKey(ValueKey('totalResponseTimeText'));
+    await tester.pumpWidget(MaterialApp(
+      home: PingProvider(),
+    ));
+    await tester.tap(pingButton);
+    await tester.pump(Duration(seconds: 6));
+    expect(ipText, findsOneWidget);
+    expect(outerListView, findsOneWidget);
+    expect(innerListView, findsOneWidget);
+    expect(totalResponseTime, findsOneWidget);
   });
 }

@@ -14,7 +14,7 @@ class PingEventsData extends ChangeNotifier {
 
   void onPingGoogle() {
     count = 0; //reset count to zero for new button taps
-    this.responsetimeList = [];
+    this.responsetimeList = []; // reset list
 
     final ping = Ping('google.com', count: 5); //start the ping
 
